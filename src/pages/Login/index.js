@@ -1,82 +1,108 @@
-import { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import Alert from "../../components/Alert";
-import Input from "../../components/Input";
-import Loading from "../../components/Loading";
-
+import { Overlay, Container, Buttons } from "./styles";
+import { useState, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import { api } from "../../services/api";
-import { signIn } from "../../services/security";
-import { Container, FormLogin, Header, Body, Button } from "./styles";
+
+import Logo from "../../assets/techman.png";
 
 function Login() {
+  const inputRef = useRef();
+
   const history = useHistory();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [password, setPassword] = useState("");
 
-  const [message, setMessage] = useState(undefined);
+  const handleInput = (e) => {
+    // alert(e.target.value);
 
-  const [login, setLogin] = useState({
-    email: "",
-    password: "",
-  });
+    if (e.target.value != "c") {
+      if (password.length < 6) {
+        setPassword(password + e.target.value);
+      }
+    } else setPassword("");
+  };
+  console.log(password);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setIsLoading(true);
-
+    if (password.length < 6) {
+      inputRef.current.style.borderBottom = "solid 2px red";
+      setPassword("");
+      // inputRef.current.style.border-radius = "25px";
+      return;
+    }
     try {
-      const response = await api.post("/sessions", login);
+      const response = await api.post("/sessions", { password });
 
-      signIn(response.data);
-
-      setIsLoading(false);
+      console.log(response);
 
       history.push("/home");
     } catch (error) {
       console.error(error);
-      setMessage({ title: "Ops...", description: error.response.data.error });
-      setIsLoading(false);
+      alert("Senha inválida");
     }
   };
 
-  const handleInput = (e) => {
-    setLogin({ ...login, [e.target.id]: e.target.value });
-  };
-
   return (
-    <>
-      <Alert message={message} type="error" handleClose={setMessage} />
-      {isLoading && <Loading />}
-      <Container>
-        <FormLogin onSubmit={handleSubmit}>
-          <Header>
-            <h1>BEM VINDO AO SENAIOVERFLOW</h1>
-            <h2>O SEU PORTAL DE RESPOSTAS</h2>
-          </Header>
-          <Body>
-            <Input
-              id="email"
-              label="E-mail"
-              type="email"
-              value={login.email}
-              handler={handleInput}
-              required
-            />
-            <Input
-              id="password"
-              label="Senha"
-              type="password"
-              value={login.password}
-              handler={handleInput}
-              required
-            />
-            <Button>Entrar</Button>
-            <Link to="/register"> Ou clique aqui para se cadastrar</Link>
-          </Body>
-        </FormLogin>
+    <Overlay>
+      <img src={Logo} alt="Logo" />
+      <Container onSubmit={handleSubmit}>
+        <input
+          type="password"
+          disabled
+          value={password}
+          required
+          ref={inputRef}
+        />
+        <Buttons>
+          <div>
+            <button type="button" value="1" onClick={handleInput}>
+              1
+            </button>
+            <button type="button" value="2" onClick={handleInput}>
+              2
+            </button>
+            <button type="button" value="3" onClick={handleInput}>
+              3
+            </button>
+          </div>
+          <div>
+            <button type="button" value="4" onClick={handleInput}>
+              4
+            </button>
+            <button type="button" value="5" onClick={handleInput}>
+              5
+            </button>
+            <button type="button" value="6" onClick={handleInput}>
+              6
+            </button>
+          </div>
+          <div>
+            <button type="button" value="7" onClick={handleInput}>
+              7
+            </button>
+            <button type="button" value="8" onClick={handleInput}>
+              8
+            </button>
+            <button type="button" value="9" onClick={handleInput}>
+              9
+            </button>
+          </div>
+          <div>
+            <button type="button" value="c" onClick={handleInput}>
+              C
+            </button>
+            <button type="button" value="0" onClick={handleInput}>
+              0
+            </button>
+            <button type="submit" value="e">
+              e
+            </button>
+          </div>
+        </Buttons>
       </Container>
-    </>
+    </Overlay>
   );
 }
 

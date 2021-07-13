@@ -1,98 +1,106 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
-import bgImg from "../../assets/bg.jpg";
-
-export const Container = styled.div`
+export const Overlay = styled.div`
   width: 100vw;
   height: 100vh;
+  background-color: var(--primaryLight);
 
   display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+
+  gap: 15px;
+  padding-top: 25px;
+
+  > img {
+    width: 20vw;
+    height: 10vh;
+  }
+`;
+
+export const Container = styled.form`
+  width: 30vw;
+  height: 65vh;
+
+  background-color: var(--white);
+
+  box-shadow: 0px 2px 5px #00000030;
+
+  display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-
-  ::before {
-    content: "";
-
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-
-    background-image: url(${bgImg});
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center top;
-
-    filter: blur(4px);
-
-    z-index: -1;
-  }
-`;
-
-const loginAnimation = keyframes`
-  0%{
-    top: -250px;
-    opacity: 0;
-    transform: scale(0.01) rotate(90deg);
-  }
-  100%{
-    top: 0px;
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-  }
-`;
-
-export const FormLogin = styled.form`
-  animation: ${loginAnimation} 0.5s;
-
-  width: 30%;
-  min-width: 300px;
-  max-width: 500px;
-
-  background-color: #282a36cc;
-  border-radius: 4px;
-  text-align: center;
-
-  box-shadow: 0px 0px 10px black;
-
-  display: flex;
   flex-direction: column;
-  align-items: center;
-  overflow: hidden;
-`;
 
-export const Header = styled.header`
-  width: 100%;
-  padding: 20px;
-  border-radius: 4px 4px 0px 0px;
+  /* padding-bottom: 50px; */
 
-  background-color: var(--dark);
-  box-shadow: 0px 2px 4px black;
+  gap: 5px;
+  > input {
+    border: none;
+    outline: none;
+    background-color: none;
+    background: none;
 
-  > h1 {
+    border-bottom: solid 2px var(--primary);
+    color: var(--primary);
+
+    transition: 0.6s;
+
+    width: 60%;
+    text-align: center;
+    padding: 5px;
     font-size: 24px;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-
-  > h2 {
-    font-size: 18px;
-    text-align: center;
   }
 `;
 
-export const Body = styled.section`
-  width: 100%;
-  padding: 30px;
-  padding-top: 10px;
+export const Buttons = styled.div`
+  width: 60%;
+  height: 70%;
+
+  /* background-color: var(--primaryDark); */
 
   display: flex;
   flex-direction: column;
-  gap: 10px;
-`;
+  align-items: center;
+  justify-content: center;
 
-export const Button = styled.button`
-  width: 100%;
-  margin-top: 10px;
+  > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 25%;
+    width: 100%;
+
+    > input {
+    }
+
+    > button {
+      width: 28%;
+      height: 85%;
+      border-radius: 100%;
+
+      border: solid 0.1vw var(--primary);
+      background: none;
+
+      color: var(--primary);
+      font-size: 2vw;
+
+      transition: background-color 0.3s, color 0.3s;
+      cursor: pointer;
+
+      font-weight: 500;
+
+      text-transform: uppercase;
+
+      :hover {
+        background-color: var(--primary);
+        color: var(--white);
+      }
+
+      :active {
+        background-color: var(--white);
+      }
+    }
+  }
 `;
